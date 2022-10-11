@@ -5,14 +5,7 @@ library(icesVMS)
 
 mkdir("data")
 
-# get benthis lookup
-metier_lookup <-
-  get_metier_lookup() %>%
-    tibble() %>%
-    select(leMetLevel6, benthisMetiers)
-
-# write out for posterity - should be in bootstrap
-write.taf(metier_lookup, dir = "data")
+metier_lookup <- read.taf(taf.data.path("metiers", "metier_lookup.csv"))
 
 # get vms (remember to run vms.R first)
 

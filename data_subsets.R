@@ -15,29 +15,11 @@ mkdir("data")
 
 vms <- fread("data/vms.csv")
 
-gear_groups <-
-  list(
-    a =
-      list(
-        Pelagic_trawls = c("OTM", "PTM"),
-        Longlines = c("LL", "LLS", "LLD", "LX"),
-        Traps = c("FPO", "FYK", "FPN"),
-        Nets = c("GNS", "GTR", "GND", "GTN")
-      )
-  )
+# create a column for gear groupings
+vms$gear_group <- NA_character_
+vms$gear_group[vms$gear_code %in% c("OTM", "PTM")] <- "pelagic"
+vms$gear_group[!is.na(vms$benthisMetiers) & vms$benthisMetiers != ""] <- "benthic"
 
-gear_group <- function(x) {
-  out <- rep(names(x), sapply(x, length))
-  names(out) <- unlist(x, use.names = FALSE)
-  out
-}
-
-gear_group_a <- gear_group(gear_groups$a)
-
-vms$gear_group_a <- unname(gear_group_a[vms$gear_code])
-vms$gear_group_b <- vms$benthisMetiers
-
-table(vms$gear_group_a)
-table(vms$gear_group_b)
+table(vms$gear_group)
 
 fwrite(vms, file = "data/vms_subsets.csv")

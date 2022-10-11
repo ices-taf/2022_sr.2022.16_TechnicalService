@@ -17,11 +17,11 @@ mkdir("data")
 vms <- fread("data/vms_subsets.csv")
 
 # get sar variables
-gear_widths <- icesVMS::get_benthis_parameters() %>% select(-id)
+gear_widths <- read.taf(taf.data.path("gear_widths", "gear_widths.csv"))
 
 vms <-
   vms %>%
-  left_join(gear_widths, by = c("gear_group_b" = "benthisMet")) %>%
+  left_join(gear_widths, by = c("benthisMetiers" = "benthisMet")) %>%
   rename(
     avg_oal = "avgOal", avg_kw = "avgKw", a = "firstFactor", b = "secondFactor"
   )
