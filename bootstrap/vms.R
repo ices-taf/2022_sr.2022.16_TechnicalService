@@ -20,10 +20,13 @@ library(data.table)
 # to get all years (year = 0)
 for (yr in 2013:2019) {
   msg("downloading vms for ", yr)
+
   fname <- paste0("vms_", yr, ".csv")
+
   if (!file.exists(fname)) {
-    vms <- get_vms(year = yr)
+    vms <- get_vms(year = yr, ecoregion = "Norwegian Sea")
     msg("saving ... ", yr)
     fwrite(vms, file = fname)
   }
+
 }
