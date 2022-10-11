@@ -22,71 +22,20 @@ try({
 
   vms <- vms %>% filter(year == yr)
 
-  msg("doing request part a")
-  req_a <-
+  vms_output <-
     vms %>%
     filter(
-      gear_group_a != "" & c_square != ""
+        !is.na(gear_group) & gear_group != "" & c_square != "" & country != "NO"
     ) %>%
-    group_by(year, gear_group_a, c_square) %>%
+    mutate(quarter = ceiling(month / 12 * 4)) %>%
+    group_by(year, quarter, gear_group, c_square) %>%
     vms_summarise() %>%
     select(
-      year, c_square, gear_group_a, kw_fishinghours, anonymous
+      year, quarter, c_square, gear_group, kw_fishinghours, surface_sar
     ) %>%
-    rename(
-      gear_group = "gear_group_a"
-    ) %>%
-    group_by(
-      gear_group
-    ) %>%
-    mutate(
-      kw_fishinghours_cat = get_cat(kw_fishinghours),
-      kw_fishinghours_cat_low = catlow(kw_fishinghours_cat),
-      kw_fishinghours_cat_high = cathigh(kw_fishinghours_cat)
-    ) %>%
-    ungroup() %>%
     vms_add_spatial()
 
-
-  msg("doing request part b")
-  req_b0 <-
-    vms %>%
-    filter(
-      !is.na(surface) & c_square != ""
-    ) %>%
-    group_by(year, c_square) %>%
-    vms_summarise() %>%
-    select(
-      year, c_square, fishing_hours, kw_fishinghours, totweight, totvalue, surface, subsurface, surface_sar, subsurface_sar, anonymous
-    ) %>%
-    mutate(
-      gear_group = "total"
-    ) %>%
-    vms_categorise_b()
-
-
-
-  req_b1 <-
-    vms %>%
-    filter(
-      !is.na(surface) & c_square != ""
-    ) %>%
-    group_by(year, gear_group_b, c_square) %>%
-    vms_summarise() %>%
-    select(
-      year, c_square, fishing_hours, kw_fishinghours, totweight, totvalue, surface, subsurface, surface_sar, subsurface_sar, gear_group_b, anonymous
-    ) %>%
-    rename(
-      gear_group = "gear_group_b"
-    ) %>%
-    vms_categorise_b()
-
-
-  req_b <-
-    rbind(req_b0, req_b1) %>%
-    vms_add_spatial()
-
-  save(req_a, req_b, file = paste0("model/request_", yr, ".RData"))
+  save(vms_output, file = paste0("model/output_", yr, ".RData"))
 })
 
 }
