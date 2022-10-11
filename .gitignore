@@ -1,0 +1,12 @@
+# vs code workspace
+*.code-workspace
+
+# TAF folders
+/bootstrap/data/
+/bootstrap/software/
+/bootstrap/library/
+/data/
+/model/
+/output/
+/report/
+/shiny/
