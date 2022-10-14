@@ -2,7 +2,7 @@
 library(icesTAF)
 
 taf.roxygenise(
-  files = "vms.R"
+  files = c("vms.R", "shapes.R", "metiers.R", "gear_widths.R")
 )
 
 taf.bootstrap()
