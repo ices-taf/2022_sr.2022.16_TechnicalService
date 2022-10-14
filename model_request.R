@@ -12,7 +12,7 @@ source("utilities.R")
 mkdir("model")
 
 
-for (yr in 2021:2009) {
+for (yr in 2013:2019) {
 
 if (file.exists(paste0("model/request_", yr, ".RData"))) next
 

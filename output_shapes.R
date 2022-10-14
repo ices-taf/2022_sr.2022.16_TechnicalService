@@ -10,7 +10,7 @@ library(sf)
 
 mkdir("output")
 
-for (yr in 2009:2021) {
+for (yr in 2013:2019) {
   msg("doing ", yr)
   load(paste0("model/output_", yr, ".RData"))
 
