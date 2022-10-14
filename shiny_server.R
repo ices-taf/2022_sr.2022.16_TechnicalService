@@ -15,31 +15,20 @@ baseEnv <- environment()
 
 
 # preload somthing
-load(paste0("data/request_2009.RData"))
+
+load(file.path("data", dir("data", pattern = "*.RData")[1]))
+#load(file.path("model", dir("model", pattern = "*.RData")[1]))
+
 
 server <- function(input, output, session) {
   getVMSData <- eventReactive( input$submit, {
-    if (length(input$dataYear) == 0) {
-      dataYear <- 2021
-      dataGear <- "Traps"
-      dataValue <- "kw_fishinghours"
-    } else {
-      dataYear <- input$dataYear
-      dataGear <- input$dataGear
-      dataValue <- input$value
-    }
 
-    load(paste0("data/request_", dataYear, ".RData"), envir = baseEnv)
+    load(file.path("data", input$dataFile), envir = baseEnv)
+    # possibly warn of object loaded is not called vms_output
 
-    if (input$set == "Others") {
-      vms <- req_a
-    } else {
-      vms <- req_b
-    }
-
-    vms <- vms %>%
-      filter(gear_group == dataGear) %>%
-      mutate(value = as.numeric(.[[dataValue]])) %>%
+    vms <- vms_output %>%
+      filter(gear_group == input$dataGear) %>%
+      mutate(value = as.numeric(.[[input$dataValue]])) %>%
       select(year, value)
 
     nlevs <- pmin(length(unique(vms$value)), as.integer(input$ncuts))
@@ -122,18 +111,6 @@ server <- function(input, output, session) {
         "4throot" = function(x) x^4
       )
     
-    #
-    vmsData <- req_b %>%
-      filter(gear_group == "TBB_MOL") %>%
-      tibble() %>%
-      mutate(
-        value = kw_fishinghours,
-        cats = cut(value, 10)
-      ) %>%
-      select(
-        value, year, cats
-      )
-    
     plotData <-
       vmsData %>%
       tibble() %>%
@@ -178,31 +155,28 @@ server <- function(input, output, session) {
 
 
   # year selecter; values based on those present in the dataset
-  output$yearSelect <- renderUI({
-    yearRange <- 2021:2009
-    selectInput("dataYear", "Year", choices = yearRange, selected = yearRange[1])
+  output$fileSelect <- renderUI({
+    fileRange <- dir("data", pattern = "*.RData")
+    selectInput("dataFile", "File", choices = fileRange, selected = fileRange[1])
   })
 
   output$gearSelect <- renderUI({
-    if (input$set == "Others") {
-      gearRange <- sort(unique(req_a$gear_group), decreasing = TRUE)
-    } else {
-      gearRange <- sort(unique(req_b$gear_group), decreasing = TRUE)
-    }
+
+    gearRange <- sort(unique(vms_output$gear_group), decreasing = TRUE)
 
     selectInput("dataGear", "Gear", choices = gearRange, selected = gearRange[1])
   })
   
   output$valueSelect <- renderUI({
-    if (input$set == "Others") {
-      valueRange = c("kw_fishinghours", "anonymous")
-    } else {
-      valueRange = c(
-        "kw_fishinghours", "fishinghours", "totweight",
-        "totvalue", "surface", "subsurface", "surface_sar", "subsurface_sar", 
-        "anonymous"
-      )
-    }
-    selectInput("value", "Value", choices = valueRange, selected = valueRange[1])
+    valueRange = c(
+      "kw_fishinghours", "fishinghours", "totweight",
+      "totvalue", "surface", "subsurface", "surface_sar", "subsurface_sar",
+      "anonymous"
+    )
+    
+    # only select from columns that exist
+    valueRange <- intersect(valueRange, names(vms_output))
+    
+    selectInput("dataValue", "Value", choices = valueRange, selected = valueRange[1])
   })
 }

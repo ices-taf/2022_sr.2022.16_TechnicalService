@@ -28,11 +28,7 @@ ui <- function() {
         box(
           width = NULL,
           actionButton("submit", label = "Submit"),
-          splitLayout(
-            cellWidths = c("50%", "50%"),
-            selectInput("set", "Benthis or not", choices = c("Benthis", "Others"), selected = "Others"),
-            uiOutput("yearSelect")
-          ),
+          uiOutput("fileSelect"),
           uiOutput("gearSelect"),
           uiOutput("valueSelect"),
           splitLayout(
