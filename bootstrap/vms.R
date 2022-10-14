@@ -18,7 +18,7 @@ library(data.table)
 # update_token({ices username})
 
 # to get all years (year = 0)
-for (yr in 2009:2021) {
+for (yr in 2013:2019) {
   msg("downloading vms for ", yr)
   fname <- paste0("vms_", yr, ".csv")
   if (!file.exists(fname)) {
