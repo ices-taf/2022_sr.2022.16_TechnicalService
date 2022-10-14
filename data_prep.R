@@ -14,7 +14,8 @@ metier_lookup <-
 # write out for posterity - should be in bootstrap
 write.taf(metier_lookup, dir = "data")
 
-# get vms
+# get vms (remember to run vms.R first)
+
 vms_all <-
   lapply(
     dir(taf.data.path("vms"), full = TRUE),
@@ -24,6 +25,7 @@ vms_all <-
 
 vms_all <-
   vms_all %>%
+  filter(country != "NO") %>% 
   rename(
     c_square = "cSquare", LE_MET_level6 = "leMetLevel6",
     AnonVessels = "anonVessels", UniqueVessels = "uniqueVessels",
@@ -35,7 +37,7 @@ dim(vms_all)
 # join and filter
 vms <-
   vms_all %>%
-  filter(!is.na(c_square)) %>%
+  filter(!is.na(c_square)) %>% 
   left_join(
     metier_lookup,
     by = c(LE_MET_level6 = "leMetLevel6")
