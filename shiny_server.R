@@ -57,9 +57,11 @@ server <- function(input, output, session) {
 
   # Due to use of leafletProxy below, this should only be called once
   output$vmsMap <- renderLeaflet({
+    view_centre <- rowMeans(matrix(st_bbox(vms_output), 2, 2))
+    
     leaflet() %>%
       # set view to europe
-      leaflet::setView(-4, 55, zoom = 4) %>%
+      leaflet::setView(view_centre[1], view_centre[2], zoom = 4) %>%
       # esri ocean basemap
       addProviderTiles(providers$Esri.WorldImagery,
         options = providerTileOptions(opacity = 0.5)
