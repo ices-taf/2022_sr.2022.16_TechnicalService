@@ -31,7 +31,18 @@ server <- function(input, output, session) {
       mutate(value = as.numeric(.[[input$dataValue]])) %>%
       select(year, value)
 
+    if (all(is.na(vms$value))) {
+      return(NULL)
+    }
+
     nlevs <- pmin(length(unique(vms$value)), as.integer(input$ncuts))
+    
+    if (nlevs == 1) {
+      print(nlevs)
+      print(unique(vms$value))
+      return(NULL)
+    }
+    
     trans <-
       switch(input$trans,
         "4throot" = function(x) x^.25,
@@ -64,44 +75,52 @@ server <- function(input, output, session) {
 
   observe({
     vmsData <- getVMSData()
+  
+    if (!is.null(vmsData)) {
 
-    # If the data changes, the polygons are cleared and redrawn, however, the map (above) is not redrawn
-    m <- 
-      leafletProxy("vmsMap", data = vmsData) %>%
-      clearShapes() %>%
-      addPolygons(
-        data = vmsData %>% st_union(),
-        fillColor = NULL,
-        fillOpacity = 0,
-        stroke = TRUE,
-        color = "black",
-        weight = 0.5,
-        opacity = 1
-      )
-
-    colours <- viridisLite::viridis(nlevels(vmsData$cats))
-
-    for (i in 1:nlevels(vmsData$cats)) {
-      
-      layerData <- vmsData %>% filter(cats == levels(vmsData$cats)[i])
-      if (nrow(layerData) == 0) next
-      
+      # If the data changes, the polygons are cleared and redrawn, however, the map (above) is not redrawn
       m <-
+        leafletProxy("vmsMap", data = vmsData) %>%
+        clearShapes() %>%
         addPolygons(
-          m,
-          data = layerData %>% st_union(),
-          fillColor = colours[i],
-          fillOpacity = 0.7,
-          stroke = FALSE
+          data = vmsData %>% st_union(),
+          fillColor = NULL,
+          fillOpacity = 0,
+          stroke = TRUE,
+          color = "black",
+          weight = 0.5,
+          opacity = 1
         )
+
+      colours <- viridisLite::viridis(nlevels(vmsData$cats))
+
+      for (i in 1:nlevels(vmsData$cats)) {
+        layerData <- vmsData %>% filter(cats == levels(vmsData$cats)[i])
+        if (nrow(layerData) == 0) next
+
+        m <-
+          addPolygons(
+            m,
+            data = layerData %>% st_union(),
+            fillColor = colours[i],
+            fillOpacity = 0.7,
+            stroke = FALSE
+          )
+      }
+
+      m
+    } else {
+      m <- leafletProxy("vmsMap") %>% clearShapes()
+      
+      m
     }
-    
-    m
   })
 
   output$legend <- renderPlotly({
     vmsData <- getVMSData()
     
+    if (!is.null(vmsData)) {
+      
     trans <-
       switch(input$trans,
         identity = identity,
@@ -151,6 +170,10 @@ server <- function(input, output, session) {
       theme(axis.text.x = element_blank())
 
     ggplotly(p)
+    } else {
+      ggplot()
+    }
+    
   })
 
 

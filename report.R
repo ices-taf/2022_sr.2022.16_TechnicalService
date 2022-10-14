@@ -11,8 +11,7 @@ library(htmlwidgets)
 library(tidyr)
 
 mkdir("report")
-mkdir("zip")
-
-#sourceTAF("report_maps.R")
 
 sourceTAF("report_zip.R")
+
+message('\nRun:\n TAF::sourceTAF("shiny"); shiny::runApp("shiny")\n\n to run the shiny app.')
