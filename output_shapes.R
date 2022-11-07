@@ -20,5 +20,9 @@ for (yr in 2013:2019) {
       kwfhr = "kw_fishinghours",
       sar = "surface_sar",
     ) %>%
-    st_write(file.path("output", paste0("fishing_effort_", yr, ".shp")), append = FALSE)
+    st_write(
+      file.path("output", paste0("fishing_effort_", yr, ".shp")),
+      append = FALSE
+    )
 }
+
