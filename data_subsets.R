@@ -17,7 +17,7 @@ vms <- fread("data/vms.csv")
 
 # create a column for gear groupings
 vms$gear_group <- NA_character_
-vms$gear_group[vms$gear_code %in% c("OTM", "PTM")] <- "pelagic"
+vms$gear_group[vms$gear_code %in% c("OTM", "PTM", "PS")] <- "pelagic"
 vms$gear_group[!is.na(vms$benthisMetiers) & vms$benthisMetiers != ""] <- "benthic"
 
 table(vms$gear_group)
