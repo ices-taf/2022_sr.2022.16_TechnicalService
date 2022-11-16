@@ -21,6 +21,10 @@ for (yr in 2013:2019) {
       kwfhr_c = "kw_fishinghours_cat",
       kwfhr_cl = "kw_fishinghours_cat_low",
       kwfhr_ch = "kw_fishinghours_cat_high",
+      totwt = "totweight",
+      totwt_c = "totweight_cat",
+      totwt_cl = "totweight_cat_low",
+      totwt_ch = "totweight_cat_high",
       sar = "surface_sar",
     ) %>%
     st_write(
