@@ -18,6 +18,9 @@ for (yr in 2013:2019) {
   vms_output %>%
     rename(
       kwfhr = "kw_fishinghours",
+      kwfhr_c = "kw_fishinghours_cat",
+      kwfhr_cl = "kw_fishinghours_cat_low",
+      kwfhr_ch = "kw_fishinghours_cat_high",
       sar = "surface_sar",
     ) %>%
     st_write(
@@ -25,4 +28,3 @@ for (yr in 2013:2019) {
       append = FALSE
     )
 }
-

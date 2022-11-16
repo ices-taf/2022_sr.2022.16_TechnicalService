@@ -31,7 +31,13 @@ try({
     group_by(year, quarter, gear_group, c_square) %>%
     vms_summarise() %>%
     select(
-      year, quarter, c_square, gear_group, kw_fishinghours, surface_sar
+      year, quarter, c_square, gear_group, kw_fishinghours, surface_sar, anonymous
+    ) %>%
+    mutate(
+      kw_fishinghours_cat = get_cat(kw_fishinghours),
+      kw_fishinghours_cat_low = catlow(kw_fishinghours_cat),
+      kw_fishinghours_cat_high = cathigh(kw_fishinghours_cat),
+      kw_fishinghours = replace(kw_fishinghours, !anonymous, NA)
     ) %>%
     vms_add_spatial()
 
