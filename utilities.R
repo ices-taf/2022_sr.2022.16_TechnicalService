@@ -4,7 +4,9 @@
 vms_summarise <- function(x) {
   x %>%
     summarise(
-      fishing_hours = sum(fishingHours, na.rm = TRUE),
+      fishinghours = sum(fishingHours, na.rm = TRUE),
+      #avg_kw = mean(avg_kw, na.rm = TRUE),
+      #kw_fishinghours2 = sum(fishingHours * avg_kw, na.rm = TRUE),
       kw_fishinghours = sum(kwFishinghours, na.rm = TRUE),
       totweight = sum(totweight, na.rm = TRUE),
       totvalue = sum(totvalue, na.rm = TRUE),
