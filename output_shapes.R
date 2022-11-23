@@ -23,10 +23,10 @@ for (yr in 2013:2019) {
         fhr_cl = "fishinghours_cat_low",
         fhr_ch = "fishinghours_cat_high",
         totwt = "totweight",
-        #totwt_c = "totweight_cat",
-        #totwt_cl = "totweight_cat_low",
-        #totwt_ch = "totweight_cat_high",
-        sar = "surface_sar",
+        totwt_c = "totweight_cat",
+        totwt_cl = "totweight_cat_low",
+        totwt_ch = "totweight_cat_high",
+        sar = "surface_sar"
       )
     
     st_write(

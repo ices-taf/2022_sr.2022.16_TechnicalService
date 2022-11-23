@@ -37,11 +37,11 @@ try({
       fishinghours_cat = get_cat(fishinghours),
       fishinghours_cat_low = catlow(fishinghours_cat),
       fishinghours_cat_high = cathigh(fishinghours_cat),
-      fishinghours = replace(fishinghours, !anonymous, NA) # ,
-      #totweight_cat = get_cat(totweight),
-      #totweight_cat_low = catlow(totweight_cat),
-      #totweight_cat_high = cathigh(totweight_cat),
-      #totweight = replace(totweight, !anonymous, NA)
+      fishinghours = replace(fishinghours, !anonymous, NA),
+      totweight_cat = get_cat(totweight),
+      totweight_cat_low = catlow(totweight_cat),
+      totweight_cat_high = cathigh(totweight_cat),
+      totweight = replace(totweight, !anonymous, NA)
     ) %>%
     vms_add_spatial()
 
