@@ -1,8 +1,26 @@
+## Prepare plots and tables for report
 
-# zip up
-shp_files <- dir("output")
+## Before:
+## After:
+
+library(icesTAF)
+
+mkdir("report")
+
+# zip up with disclaimer, and advice document
+files <-
+  c(
+#    taf.data.path("nor.2022.16.pdf"),
+    taf.data.path("disclaimer", "disclaimer.txt"),
+    "README.md",
+    dir("output", full.names = TRUE)
+  )
+
 zip(
-  "report/shapefiles.zip",
-  file.path("output", shp_files),
+  file.path(
+    "report",
+    "ICES.2022.norwegian-SR-spatial-data-layers-of-fishing.zip"
+  ),
+  files,
   extras = "-j"
 )
