@@ -28,13 +28,13 @@ for (yr in 2013:2019) {
         totwt_ch = "totweight_cat_high",
         sar = "surface_sar"
       )
-    
-    st_write(
-      vms_output,
-      file.path("output", paste0("fishing_effort_", yr, ".shp")),
-      append = FALSE
-    )
-    
+
+  st_write(
+    vms_output,
+    file.path("output", paste0("fishing_effort_", yr, ".shp")),
+    append = FALSE
+  )
+
   st_write(
     vms_output,
     file.path("output", "fishing_effort.csv"),
