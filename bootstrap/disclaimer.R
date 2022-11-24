@@ -28,11 +28,11 @@ disclaimer_url <-
 disclaimer <- readLines(disclaimer_url)
 
 # specific entries
-data_specific <- "The zip file contains ESRI shapefiles and a geographic CSV with a well known text column.  The data provided are of swept area ratio values for the surface and subsurface of the sea bed due to bottom contacting gears, and this is provided by year for 2009 to 2018, and aggregated by a grouping customised for Swedish waters.  The spatial extent of the data is the Swedish EEZ."
+data_specific <- "The zip file contains ESRI shapefiles and a geographic CSV with a well known text column.  The data provided are of hours fished and total landings, for pelagic and benthic gears, and swept area ratio values for the surface of the sea bed due to bottom contacting gears. Data is provided by year and quarter for 2013 to 2021.  The spatial extent of the data is the area of the Norwegian EEZ and international waters specified in the request, and the spatial resolution is 0.05 x 0.05 degrees."
 
-recomended_citation <- "ICES. 2022. Norwegian special request on the production of spatial data layers of fishing in areas relevant to future extraction of deep sea minerals. In Report of the ICES Advisory Committee, 2022. ICES Advice 2022, sr.2022.16. https://doi.org/10.17895/ices.advice.XXXX"
+recomended_citation <- "ICES. 2022. Norwegian special request on the production of spatial data layers of fishing in areas relevant to future extraction of deep sea minerals. In Report of the ICES Advisory Committee, 2022. ICES Advice 2022, sr.2022.16. https://doi.org/10.17895/ices.advice.10.17895"
 
-metadata <- "https://doi.org/10.17895/ices.advice.xxxx"
+metadata <- "https://doi.org/10.17895/ices.advice.10.17895"
 
 # apply to sections
 # data specific info
